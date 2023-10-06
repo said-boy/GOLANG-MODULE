@@ -78,4 +78,51 @@ func TestTableTest(t *testing.T) {
 
 }
 
+/*
+banchmark untuk mengetes kecepatan dari sebuah fungsi
+*/
 
+// benchmark adl test performance kecepatan dari fungsi kita menggunakan perulangan.
+func BenchmarkSayHelloTo(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+        SayHelloTo("said")
+    }
+}
+
+// Sub Benchmark
+func BenchmarkSubSayHelloTo(b *testing.B) {
+	b.Run("said", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+            SayHelloTo("said")
+        }
+	})
+	b.Run("Alkhudri", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+            SayHelloTo("Alkhudri")
+        }
+	})
+}
+
+// Table BenchMark
+func BenchmarkTableTest(b *testing.B) {
+    benchmarks := []struct {
+        Name string
+		Request string
+    }{
+		{
+			Name: "Said",
+			Request: "Said",
+		},
+		{
+			Name: "Alkhudri",
+			Request: "Alkhudri",
+		},
+	}
+	for _, benchmark := range benchmarks {
+		b.Run(benchmark.Name, func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				SayHelloTo(benchmark.Request)
+			}
+		})
+	}
+}
